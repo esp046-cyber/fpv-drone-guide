@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FPV Drone Builder Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+        
+        .nav-btn:hover {
+            background: #2980b9;
+        }
+        
+        .nav-btn.active {
+            background: #27ae60;
+        }
+        
+        .section {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 24px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            color: #34495e;
+            margin: 20px 0 10px 0;
+            font-size: 18px;
+        }
+        
+        .parts-list {
+            list-style: none;
+            margin: 15px 0;
+        }
+        
+        .parts-list li {
+            padding: 10px;
+            margin: 8px 0;
+            background: #ecf0f1;
+            border-left: 4px solid #3498db;
+        }
+        
+        .part-name {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .step {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .step-number {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .diagram {
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ecf0f1;
+            border: 2px solid #bdc3c7;
+            border-radius: 5px;
+            position: relative;
+        }
+        
+        .component-box {
+            background: white;
+            border: 2px solid #3498db;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 12px;
+            position: absolute;
+        }
+        
+        .tip {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .warning {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .local-tip {
+            background: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .checklist {
+            list-style: none;
+        }
+        
+        .checklist li {
+            padding: 8px;
+            margin: 5px 0;
+        }
+        
+        .checklist input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        th {
+            background: #3498db;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .price-guide {
+            background: #e8f5e9;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .wiring-diagram {
+            background: white;
+            border: 2px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .wire-connection {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            margin: 5px 0;
+            background: #f8f9fa;
+            border-left: 3px solid #e74c3c;
+        }
+        
+        .wire-from {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        .wire-to {
+            font-weight: bold;
+            color: #27ae60;
+        }
+        
+        @media print {
+            .nav-buttons, header {
+                display: none;
+            }
+            .section {
+                display: block !important;
+                page-break-after: always;
+            }
+        }
+    </style>
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>FPV Drone Builder Guide</h1>
+        <p class="subtitle">Complete step-by-step guide for building your first racing drone</p>
+    </header>
+    
+    <div class="container">
+        <div class="nav-buttons">
+            <button class="nav-btn active" onclick="showSection('intro')">Introduction</button>
+            <button class="nav-btn" onclick="showSection('parts')">Parts List</button>
+            <button class="nav-btn" onclick="showSection('tools')">Tools Needed</button>
+            <button class="nav-btn" onclick="showSection('assembly')">Assembly Steps</button>
+            <button class="nav-btn" onclick="showSection('wiring')">Wiring Guide</button>
+            <button class="nav-btn" onclick="showSection('setup')">Setup & Testing</button>
+            <button class="nav-btn" onclick="showSection('troubleshoot')">Troubleshooting</button>
+            <button class="nav-btn" onclick="showSection('glossary')">Word Guide</button>
+            <button class="nav-btn" onclick="showSection('printlist')">Print Checklist</button>
+        </div>
+        
+        <!-- Introduction Section -->
+        <div id="intro" class="section active">
+            <h2>Welcome to FPV Drone Building</h2>
+            <p>Building your own FPV (First Person View) drone is an exciting and rewarding project. This guide will teach you everything step by step in simple English that anyone can understand.</p>
+            
+            <h3>What is an FPV Drone?</h3>
+            <p>An FPV drone is a flying machine that you control with a remote. It has a camera that sends live video to special goggles you wear on your head. When you fly it, you see exactly what the drone sees - like you are riding inside it! People use these drones for racing competitions and doing cool flying tricks.</p>
+            
+            <h3>How Long Will This Take?</h3>
+            <p>Your first build will take around 4 to 6 hours. Don't rush! Take breaks when you need to. It's better to work slowly and carefully than to make mistakes and damage expensive parts.</p>
+            
+            <h3>Can I Really Do This?</h3>
+            <p>Yes! If you can follow instructions and learn basic soldering (joining wires with hot metal), you can build this. Many beginners successfully build their first drone. The key is to be patient and careful.</p>
+            
+            <div class="local-tip">
+                <strong>For Philippine Builders:</strong> Most parts can be ordered online from Shopee, Lazada, or specialty hobby shops in Metro Manila and major cities. Budget around 15,000 to 25,000 pesos for a complete beginner setup including goggles and radio. Shipping from China usually takes 2-3 weeks.
+            </div>
+            
+            <div class="price-guide">
+                <strong>Expected Costs (Rough Estimates):</strong><br>
+                • Frame: 1,500 - 3,000 pesos<br>
+                • Motors (set of 4): 2,500 - 4,500 pesos<br>
+                • Flight Controller + ESC: 3,000 - 6,000 pesos<br>
+                • Camera + Video Transmitter: 2,500 - 4,000 pesos<br>
+                • Receiver: 1,500 - 3,000 pesos<br>
+                • Batteries (2-3 packs): 3,000 - 5,000 pesos<br>
+                • Props and small parts: 1,000 - 2,000 pesos<br>
+                • Radio Controller: 3,000 - 8,000 pesos (one-time purchase)<br>
+                • FPV Goggles: 5,000 - 15,000 pesos (one-time purchase)
+            </div>
+            
+            <h3>Important Things to Know</h3>
+            <p><strong>Voltage Matters:</strong> Philippines uses 220V power, but this doesn't affect the drone (it uses batteries). However, your battery charger must support 220V. Most modern chargers do, but always check before buying.</p>
+            
+            <p><strong>Where Can You Fly?</strong> Open fields, parks (with permission), and designated flying areas are best. Avoid crowded places, airports, and government buildings. Always fly during daytime when you can see clearly.</p>
+            
+            <p><strong>Weather Considerations:</strong> Don't fly in rain - water will damage electronics. High humidity (common here) can affect electronics over time, so store your drone in a dry place with silica gel packs if possible.</p>
+            
+            <div class="tip">
+                <strong>Before You Start:</strong> Read this entire guide first. Understanding the whole process helps you avoid mistakes. Also, join online groups or forums where Filipino drone builders share tips and help each other.
+            </div>
+            
+            <div class="warning">
+                <strong>Important Safety Note:</strong> Drone propellers spin very fast and can cause serious cuts. Always turn off the drone when handling it. Never put your fingers near spinning props. Keep children and pets away when testing or flying.
+            </div>
+        </div>
+        
+        <!-- Parts List Section -->
+        <div id="parts" class="section">
+            <h2>Complete Parts List</h2>
+            
+            <p>Here is everything you need to build one complete FPV drone. Don't worry if you don't understand all the terms yet - we explain them in the Word Guide section.</p>
+            
+            <h3>Main Components (The Big Parts)</h3>
+            <ul class="parts-list">
+                <li><span class="part-name">Frame:</span> The skeleton of your drone made from carbon fiber. Get a 5 inch size frame - this is the standard size and easiest for beginners. Costs around 1,500-3,000 pesos.</li>
+                
+                <li><span class="part-name">Motors:</span> You need 4 motors. Look for 2207 or 2306 size with 2400-2600KV rating. Higher KV means faster spinning. Costs around 2,500-4,500 pesos for a set of 4.</li>
+                
+                <li><span class="part-name">ESC (Electronic Speed Controller):</span> This controls how fast each motor spins. Get a 4-in-1 ESC (all four controllers in one board) rated for 35A or 45A. Easier to install than 4 separate ESCs. Costs around 2,000-4,000 pesos.</li>
+                
+                <li><span class="part-name">Flight Controller:</span> The brain of your drone. Get an F4 or F7 model. Make sure it comes with a gyro sensor (almost all do). Costs around 1,500-2,500 pesos.</li>
+                
+                <li><span class="part-name">FPV Camera:</span> Sends video to your goggles. Get a CMOS type camera with 2.8mm lens. Costs around 800-1,500 pesos.</li>
+                
+                <li><span class="part-name">Video Transmitter (VTX):</span> Broadcasts the camera signal. Get 25mW to 600mW power. Higher power means longer range but uses more battery. Costs around 1,000-2,000 pesos.</li>
+                
+                <li><span class="part-name">Radio Receiver:</span> Receives signals from your remote control. Must match your radio brand (Flysky, Radiomaster, Frsky, etc.). Costs around 1,500-3,000 pesos.</li>
+                
+                <li><span class="part-name">Propellers:</span> Get at least 8-12 pieces of 5 inch props. You will crash and break them while learning - this is normal! Costs around 500-1,000 pesos for a set.</li>
+                
+                <li><span class="part-name">Batteries:</span> Get 2-3 batteries so you can fly longer. Use 4S LiPo batteries with 1300-1500mAh capacity. Each costs around 1,000-1,800 pesos.</li>
+                
+                <li><span class="part-name">Battery Strap:</span> A strong velcro or rubber strap to hold the battery tight on the drone. Costs around 50-150 pesos.</li>
+                
+                <li><span class="part-name">Antennas:</span> Your receiver and VTX each need an antenna. Sometimes included with the parts, sometimes sold separately. Costs around 200-500 pesos each if not included.</li>
+            </ul>
+            
+            <h3>Small Parts You Also Need</h3>
+            <ul class="parts-list">
+                <li>XT60 connector (yellow connector for battery) - if not already on your battery and ESC</li>
+                <li>Screws and spacers (metal tubes to create space between plates) - usually included with frame</li>
+                <li>Solder wire (for joining electrical connections) - 60/40 or 63/37 type</li>
+                <li>Electrical wire - Get 16-20 AWG for power wires, 26-28 AWG for signal wires</li>
+                <li>Heat shrink tubing (plastic tubes that shrink when heated to cover connections)</li>
+                <li>Zip ties (plastic straps to organize wires)</li>
+                <li>Double-sided foam tape for mounting small parts</li>
+            </ul>
+            
+            <div class="local-tip">
+                <strong>Where to Buy in Philippines:</strong><br>
+                • <strong>Online:</strong> Shopee and Lazada have many sellers. Check reviews before buying. Search for "FPV drone parts" or specific items like "2207 motor 2600kv".<br>
+                • <strong>Local Shops:</strong> Metro Manila has hobby shops in Cubao, Gilmore, and Taft. Provincial cities usually have at least one hobby shop.<br>
+                • <strong>Facebook Groups:</strong> Join Filipino FPV groups. Members often sell used parts or do group orders to save on shipping.<br>
+                • <strong>International:</strong> Banggood, AliExpress ship to Philippines but expect 2-4 weeks delivery and possible customs fees.
+            </div>
+            
+            <h3>Tools and Equipment (Separate from Drone Parts)</h3>
+            <p>These are covered in detail in the Tools section, but you will also need:</p>
+            <ul class="parts-list">
+                <li><span class="part-name">Radio Controller (Transmitter):</span> The remote control in your hands. One-time purchase. Budget 3,000-8,000 pesos. Popular affordable options: Radiomaster Zorro, Flysky i6X.</li>
+                
+                <li><span class="part-name">FPV Goggles:</span> What you wear to see the camera view. One-time purchase. Budget 5,000-15,000 pesos. Entry level: Eachine EV800D (around 5,000-7,000 pesos).</li>
+                
+                <li><span class="part-name">Battery Charger:</span> For charging LiPo batteries. VERY IMPORTANT - must be a proper LiPo charger with balance charging. Budget 1,500-4,000 pesos. Make sure it works with 220V Philippine power.</li>
+            </ul>
+            
+            <div class="warning">
+                <strong>Compatibility Warning:</strong> Make sure all your parts work together! Check these things:<br>
+                • Battery voltage (4S or 6S) - all parts must support the same voltage<br>
+                • Receiver must match your radio controller brand<br>
+                • Connector types match (XT60, XT30, etc.)<br>
+                • Flight controller and ESC can connect together (check mounting holes and wire connections)<br>
+                <br>
+                When in doubt, buy a "combo pack" or "stack" where the flight controller and ESC are designed to work together.
+            </div>
+        </div>
+        
+        <!-- Tools Section -->
+        <div id="tools" class="section">
+            <h2>Tools You Will Need</h2>
+            
+            <p>Before you start building, you need the right tools. Some are absolutely necessary, others just make the job easier.</p>
+            
+            <h3>Must-Have Tools (Cannot Build Without These)</h3>
+            <ul class="parts-list">
+                <li><span class="part-name">Soldering Iron:</span> For joining wires together. Get a temperature-controlled type (can adjust heat), 40-60W power. Cost: 500-2,000 pesos. Cheaper ones work but are harder to use.</li>
+                
+                <li><span class="part-name">Solder Wire:</span> The metal that melts to join wires. Get 60/40 or 63/37 rosin core type (has flux inside). Get 0.8mm or 1.0mm thickness. Cost: 150-400 pesos per roll.</li>
+                
+                <li><span class="part-name">Hex Drivers (Allen Keys):</span> Small L-shaped tools for screws. You need 1.5mm, 2.0mm, and 2.5mm sizes. Cost: 200-500 pesos for a set.</li>
+                
+                <li><span class="part-name">Wire Cutters:</span> For cutting wires cleanly. "Flush cut" style is best. Cost: 150-400 pesos.</li>
+                
+                <li><span class="part-name">Wire Strippers:</span> Removes plastic coating from wires without cutting the metal inside. Get one that handles 16-28 AWG wire sizes. Cost: 200-600 pesos.</li>
+                
+                <li><span class="part-name">Helping Hands Tool:</span> Metal clips on a base that hold parts while you solder. Makes life much easier! Cost: 200-500 pesos.</li>
+                
+                <li><span class="part-name">Heat Source:</span> For shrinking heat shrink tubes. A cheap lighter works, or get a heat gun (better but costs 300-800 pesos).</li>
+                
+                <li><span class="part-name">Multimeter:</span> Tests electrical connections and voltage. Very important for checking your work. Get a digital one. Cost: 200-800 pesos.</li>
+            </ul>
+            
+            <div class="local-tip">
+                <strong>Where to Buy Tools:</strong><br>
+                • Hardware stores like Ace Hardware, Handyman, Wilcon have basic tools<br>
+                • Electronics shops in Raon, Manila or local electronics stores<br>
+                • Online: Shopee and Lazada have everything<br>
+                • Tip: Buy a soldering starter kit - usually includes iron, solder, and some basic tools for good value
+            </div>
+            
+            <h3>Nice-to-Have Tools (Make Job Easier)</h3>
+            <ul class="parts-list">
+                <li>Soldering flux (liquid that makes solder flow better) - Cost: 100-300 pesos</li>
+                <li>Desoldering pump or wick (removes solder when you make mistakes) - Cost: 100-400 pesos</li>
+                <li>Magnifying glass or helping hands with magnifier - Cost: 300-800 pesos</li>
+                <li>Isopropyl alcohol and cotton swabs (for cleaning flux residue) - Cost: 100-200 pesos</li>
+                <li>Small pliers and tweezers - Cost: 150-400 pesos</li>
+                <li>Smoke absorber fan (removes solder fumes) - Cost: 500-1,500 pesos</li>
+            </ul>
+            
+            <h3>Practice Soldering First!</h3>
+            <p>If you have never soldered before, PRACTICE first! Get some old wires and practice joining them before working on your expensive drone parts. Watch YouTube videos on "how to solder electronics" - there are many good tutorials.</p>
+            
+            <div class="tip">
+                <strong>Soldering Tips for Beginners:</strong><br>
+                • Heat the wire and pad together, then apply solder to the heated metal (not directly to iron tip)<br>
+                • Good solder joint looks shiny and smooth, not dull and lumpy<br>
+                • Clean your iron tip often on a wet sponge<br>
+                • Work in well-ventilated area - open windows, use a fan<br>
+                • Take breaks - concentration is important for good solder joints<br>
+                • If using cheap soldering iron, set temperature to medium-high (around 350-400°C)
+            </div>
+            
+            <div class="warning">
+                <strong>Safety Rules When Soldering:</strong><br>
+                • Soldering iron is VERY HOT (300-400°C) - can cause serious burns<br>
+                • Never leave hot iron unattended - always use a stand<br>
+                • Solder fumes are not healthy - work in ventilated area<br>
+                • Wear safety glasses to protect eyes from flying solder bits<br>
+                • Keep flammable materials away from your work area<br>
+                • Unplug iron when done and let it cool completely before storing<br>
+                • If you get burned, immediately run cold water over the burn for several minutes
+            </div>
+            
+            <h3>Work Area Setup</h3>
+            <p>Set up a clean, well-lit workspace. Good lighting is very important for seeing small parts and solder joints clearly. A desk lamp or flashlight helps a lot. Keep your area organized - small screws are easy to lose!</p>
+        </div>
+        
+        <!-- Assembly Section -->
+        <div id="assembly" class="section">
+            <h2>Assembly Steps</h2>
+            
+            <p>Now we start putting everything together! Take your time with each step. If something doesn't fit right, don't force it - check if you're doing it correctly first.</p>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Unpack and Organize Everything</strong>
+                <p>Open all your packages and lay out all parts. Check that you have everything from your parts list. Organize small screws and nuts in a container (ice cube tray works great). Count your screws - frame kits sometimes have extras, sometimes have exact amount.</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>Prepare the Frame</strong>
+                <p>Your frame has several pieces: main bottom plate (biggest), four arms (long pieces), top plate, and hardware (screws, standoffs, nuts). Read the frame instructions if included. Carbon fiber is strong but can crack if you overtighten screws.</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>Attach Motors to Arms</strong>
+                <p>Each motor mounts to one arm. The motor has 4 holes that line up with 4 holes on the arm. Use the screws that came with your motors (usually M3 size). The motor wires should point toward the CENTER of the frame, not outward. Tighten screws in a criss-cross pattern (like tightening car wheel nuts) - this keeps motor flat. Tight but not super tight - you don't want to crack the carbon fiber arm.</p>
+            </div>
+            
+            <div class="tip">
+                <strong>Motor Mounting Tip:</strong> Put a tiny drop of threadlocker (blue Loctite) on each screw if you have it. This prevents screws from vibrating loose during flight. If you don't have threadlocker, that's okay - just check screws are tight after first few flights.
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                <strong>Build the Frame Base</strong>
+                <p>Now attach the four arms to the main bottom plate. Each arm has holes that line up with holes in the plate. Use the standoffs (metal tubes) to create space - you will sandwich electronics between bottom and top plates later. The frame should look like an "X" or "H" shape when done, depending on your frame design.</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">5</span>
+                <strong>Install the Stack (Flight Controller and ESC)</strong>
+                <p>The "stack" is your flight controller sitting on top of your ESC. They connect together with soft rubber grommets (small rubber circles with holes) or standoffs. The rubber helps reduce vibration. Mount the stack in the CENTER of the frame, on top of the bottom plate. Very important: the arrow on the flight controller must point FORWARD (toward where camera will go). If arrow points sideways or backward, your drone will be confused about which way is forward!</p>
+            </div>
+            
+            <div class="warning">
+                <strong>Check This Carefully:</strong> Make sure flight controller arrow points forward! This is a very common mistake. Forward is the direction where the camera will be. Many people mark "front" of their frame with tape or marker to avoid confusion.
+            </div>
+            
+            <div class="step">
+                <span class="step-number">6</span>
+                <strong>Mount the FPV Camera</strong>
+                <p>The camera goes at the front of the drone. Most frames have a special mounting area or plate for the camera. The camera should tilt up at an angle - start with 20-30 degrees. Why tilt? When you fly forward fast, the drone naturally tilts forward. If camera points straight ahead, you would see the ground. Tilting the camera up means you see forward even when drone is tilted. You can adjust this angle later once you start flying.</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">7</span>
+                <strong>Install Video Transmitter (VTX)</strong>
+                <p>The VTX usually mounts on the back of the drone or sits on top of your flight controller stack. Make sure the antenna connector has clear space all around it - antenna will stick up or out to the side. The antenna should not be able to hit the propellers when they spin. Some people use zip ties or 3M tape to secure the VTX.</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">8</span>
+                <strong>Mount the Radio Receiver</strong>
+                <p>The receiver can go almost anywhere there is space. Many people stick it to the side of the frame or on top of the battery bay. Important: the receiver antenna should NOT be pressed against carbon fiber - carbon fiber blocks radio signals! The antenna should stick out or be zip-tied to an arm. Some receivers have two antennas - arrange them in a "V" shape or 90 degrees apart for best signal.</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">9</span>
+                <strong>Attach the Top Plate</strong>
+                <p>The top plate sits on top of everything and uses the standoffs you installed earlier. This plate protects your electronics and keeps everything from moving around. Before you fully tighten it down, route your motor wires so they won't get pinched. Motor wires should have some slack (not pulled super tight) so motors can vibrate without pulling on solder joints.</p>
+            </div>
+            
+            <div class="diagram">
+                <div class="component-box" style="top: 20px; left: 50%; transform: translateX(-50%);">Camera (Front)</div>
+                <div class="component-box" style="top: 50%; left: 20px; transform: translateY(-50%);">Motor 1<br>(Front Right)</div>
+                <div class="component-box" style="top: 50%; right: 20px; transform: translateY(-50%);">Motor 2<br>(Front Left)</div>
+                <div class="component-box" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">Flight Controller<br>& ESC Stack<br>(Center)</div>
+                <div class="component-box" style="bottom: 50px; left: 20px;">Motor 4<br>(Back Left)</div>
+                <div class="component-box" style="bottom: 50px; right: 20px;">Motor 3<br>(Back Right)</div>
+                <div class="component-box" style="bottom: 20px; left: 50%; transform: translateX(-50%);">Battery Here<br>(Bottom)</div>
+                <div class="component-box" style="top: 80px; right: 10px;">VTX<br>(Back)</div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">10</span>
+                <strong>Double-Check Everything Before Wiring</strong>
+                <p>Before you start soldering wires, check that all screws are tight and all parts are secure. Shake the drone gently - nothing should rattle or move. If something is loose, fix it now. It's much harder to tighten screws after you solder all the wires.</p>
+            </div>
+            
+            <div class="local-tip">
+                <strong>Common Assembly Mistakes:</strong><br>
+                • Flight controller arrow not pointing forward (check this twice!)<br>
+                • Screws too tight, cracking carbon fiber<br>
+                • Screws too loose, parts wiggling<br>
+                • Motor wires getting pinched under top plate<br>
+                • Receiver antenna touching carbon fiber<br>
+                • VTX antenna able to hit propellers<br>
+                • Forgetting to use rubber grommets on flight controller (needs vibration dampening)
+            </div>
+        </div>
+        
+        <!-- Wiring Section -->
+        <div id="wiring" class="section">
+            <h2>Wiring Guide</h2>
+            
+            <p>This is the most important and most scary part for beginners. Take your time! Double-check everything before soldering. A mistake here can burn your parts.</p>
+            
+            <div class="warning">
+                <strong>CRITICAL SAFETY RULE:</strong> DO NOT connect the battery until ALL wiring is complete and checked! If you make a short circuit (positive touches negative), your parts can catch fire! Always test with a multimeter before connecting battery.
+            </div>
+            
+            <h3>Understanding Polarity (Plus and Minus)</h3>
+            <p>Electricity flows from POSITIVE (+) to NEGATIVE (-). If you connect these backwards, you can destroy your parts instantly. Always remember:</p>
+            <ul class="parts-list">
+                <li><strong>RED wire = POSITIVE (+)</strong> - Sometimes called VCC, VBAT, or Power</li>
+                <li><strong>BLACK wire = NEGATIVE (-)</strong> - Sometimes called GND, Ground, or 0V</li>
+                <li><strong>If wires aren't red/black:</strong> Check labels on the part or look up the manual online</li>
+            </ul>
+            
+            <h3>Wire Thickness Guide</h3>
+            <p><strong>Thick wires (16-20 AWG):</strong> For high current - battery to ESC, ESC to motors. These carry lots of power.<br>
+            <strong>Thin wires (26-28 AWG):</strong> For signals - receiver, camera, VTX control. These carry information, not much power.</p>
+            
+            <div class="wiring-diagram">
+                <h3>Main Power Connections</h3>
+                <div class="wire-connection">
+                    <span class="wire-from">Battery (+) RED</span>
+                    <span>→</span>
+                    <span class="wire-to">ESC Power Input (+)</span>
+                </div>
+                <div class="wire-connection">
+                    <span class="wire-from">Battery (-) BLACK</span>
+                    <span>→</span>
+                    <span class="wire-to">ESC Power Input (-)</span>
+                </div>
+                <div class="wire-connection">
+                    <span class="wire-from">ESC Motor Pad 1</span>
+                    <span>→</span>
+                    <span class="wire-to">Motor 1 (Front Right) - any 3 wires</span>
+                </div>
+                <div class="wire-connection">
+                    <span class="wire-from">ESC Motor Pad 2</span>
+                    <span>→</span>
+                    <span class="wire-to">Motor 2 (Front Left) - any 3 wires</span>
+                </div>
+                <div class="wire-connection">
+                    <span class="wire-from">ESC Motor Pad 3</span>
+                    <span>→</span>
+                    <span class="wire-to">Motor 3 (Back Right) - any 3 wires</span>
+                </div>
+                <div class="wire-connection">
+                    <span class="wire-from">ESC Motor Pad 4</span>
+                    <span>→</span>
+                    <span class="wire-to">Motor 4 (Back Left) - any 3 wires</span>
+                </div>
+            </div>
+            
+            <div class="tip">
+                <strong>Motor Wire Order:</strong> Don't worry about the order of the 3 motor wires yet. You can solder them in any order. If a motor spins backward later, you just swap any 2 of the 3 wires. We'll test this in the Setup section.
+            </div>
+            
+            <div class="wiring-diagram">
+                <h3>Camera and Video Transmitter Connections</h3>
+                <div class="wire-connection">
+                    <span class="wire-from">Camera Video (Yellow)</span>
+                    <span>→</span>
+                    <span class="wire-to">VTX Video Input</span>
+                </div>
+                <div class="wire-connection">
+                    <span class="wire-from">Camera (+) RED</span>
+                    <span>→</span>
+                    <span class="wire-to">Flight Controller 5V or VTX 5V</span>
+                </div>
+                <div class="wire-connection">
+                    <span class="wire-from">Camera (-) BLACK</span>
+                    <span>→</span>
+                    <span class="wire-to">Ground (GND)</span>
+                </div>
+                <div class="wire-connection">
+                    <span class="wire-from">VTX (+) Power</span>
+                    <span>→</span>
+                    <span class="wire-to">Flight Controller 5V or 9V pad</span>
+                </div>
+                <div class="wire-connection">
+                    <span class="wire-from">VTX (-) Ground</span>
+                    <span>→</span>
+                    <span class="wire-to">Ground (GND)</span>
+                </div>
+            </div>
+            
+            <div class="warning">
+                <strong>Check VTX Voltage!</strong> Some VTX work on 5V, some on 9V, some on direct battery voltage. READ YOUR VTX MANUAL! Connecting wrong voltage will destroy it. Most cameras use 5V.
+            </div>
+            
+            <div class="wiring-diagram">
+                <h3>Radio Receiver Connections</h3>
+                <div class="wire-connection">
+                    <span class="wire-from">Receiver (+) Power</span>
+                    <span>→</span>
+                    <span class="wire-to">Flight Controller 5V pad</span>
+                </div>
+                <div class="wire-connection">
+                    <span class="wire-from">Receiver (-) Ground</span>
+                    <span>→</span>
+                    <span class="wire-to">Ground (GND)</span>
+                </div>
+                <div class="wire-connection">
+                    <span class="wire-from">Receiver Signal (SBUS/PPM)</span>
+                    <span>→</span>
+                    <span class="wire-to">Flight Controller RX pad</span>
+                </div>
+            </div>
+            
+            <h3>Step-by-Step Soldering Process</h3>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Prepare Your Wires</strong>
+                <p>Cut wires to the right length - not too short (hard to work with) and not too long (messy and heavy). Leave a little extra length for mistakes. Strip about 2-3mm of insulation from each wire end using wire strippers.</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>Tin Your Wires and Pads</strong>
+                <p>"Tinning" means putting a thin layer of solder on something before the final connection. Heat the wire with your iron, then touch solder to the heated wire (not the iron). The solder should flow onto the wire and make it shiny. Do the same for the solder pad on your board. This makes the final connection much easier.</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>Solder Motors to ESC</strong>
+                <p>Start with motors - these are big connections with thick wires, good for practice. Place the tinned motor wire on the tinned ESC pad. Heat both with your iron until the solder melts and flows together. Remove iron and hold wire still for 2-3 seconds while solder cools. Good joint looks smooth and shiny. Do all 12 motor wires (3 wires × 4 motors).</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                <strong>Solder Battery Connector to ESC</strong>
+                <p>Your ESC probably has an XT60 connector already, or you need to solder one on. If soldering: RED wire to (+) pad, BLACK wire to (-) pad. These pads are BIG and need lots of heat. Be patient - it might take 5-10 seconds for the solder to flow properly. Use plenty of solder for strong connection.</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">5</span>
+                <strong>Connect Flight Controller to ESC</strong>
+                <p>If you have a stack designed to work together, they might connect with a ribbon cable or special connector. If not, you need to solder signal wires from ESC to Flight Controller. Usually these are labeled M1, M2, M3, M4 on both boards. Also connect 5V and Ground if not connected by cable.</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">6</span>
+                <strong>Wire the Camera and VTX</strong>
+                <p>These use thin wires and small pads - be careful! Check voltage requirements first. Connect power (+ and -), then video signal wire. If your VTX has smart audio or control wires, connect these to the correct pads on flight controller (check your FC manual).</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">7</span>
+                <strong>Connect the Receiver</strong>
+                <p>Connect power (5V and Ground), then the signal wire. The signal wire goes to an RX pad on your flight controller. Which pad depends on your receiver type (SBUS, PPM, IBUS, etc.) - check your flight controller manual.</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">8</span>
+                <strong>Add Heat Shrink</strong>
+                <p>Cover all exposed solder joints with heat shrink tubing. Slide the tube over the connection, then heat it with a lighter or heat gun until it shrinks tight. This prevents short circuits.</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">9</span>
+                <strong>Check Everything with Multimeter</strong>
+                <p>Before connecting battery, use multimeter to check for short circuits. Set multimeter to continuity mode (beep mode). Touch one probe to positive battery pad and other to negative. It should NOT beep - if it beeps, you have a short circuit! Find and fix it before continuing.</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">10</span>
+                <strong>Visual Inspection</strong>
+                <p>Look at every solder joint carefully. Good joints are shiny, smooth, and cone-shaped. Bad joints are dull, lumpy, or have gaps. If you see a bad joint, reheat it and add more solder. Check that no wires are touching that shouldn't be.</p>
+            </div>
+            
+            <div class="tip">
+                <strong>Common Wiring Mistakes:</strong><br>
+                • Mixing up positive and negative wires<br>
+                • Cold solder joints (dull and lumpy instead of shiny)<br>
+                • Not enough solder (weak connection)<br>
+                • Too much solder (creates bridges between pads)<br>
+                • Forgetting to slide on heat shrink before soldering<br>
+                • Not checking for shorts with multimeter
+            </div>
+        </div>
+        
+        <!-- Setup & Testing Section -->
+        <div id="setup" class="section">
+            <h2>Setup & Testing</h2>
+            
+            <p>Your drone is built! Now we need to program the flight controller and test everything before flying.</p>
+            
+            <h3>Software You Need</h3>
+            <p>Download and install <strong>Betaflight Configurator</strong> on your computer. This is free software available for Windows, Mac, and Linux. Search "Betaflight Configurator download" or go to the Betaflight website.</p>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Connect to Computer</strong>
+                <p>Connect your drone to computer using a USB cable (micro-USB or USB-C depending on your flight controller). DO NOT connect battery yet! The USB provides enough power for setup. Open Betaflight Configurator and click "Connect" button.</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>Check Orientation</strong>
+                <p>In Betaflight, go to "Setup" tab. You'll see a 3D model of a quadcopter. Tilt your real drone forward - the model should tilt forward too. Tilt right - model tilts right. If the model moves wrong, your flight controller is mounted incorrectly. Check that the arrow points forward!</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>Configure Receiver</strong>
+                <p>Go to "Receiver" tab. Select your receiver type (SBUS, PPM, IBUS, etc.). Turn on your radio controller. Move the sticks - you should see the bars moving on screen. If nothing moves, check your receiver wiring and make sure receiver is bound to your radio.</p>
+            </div>
+            
+            <div class="tip">
+                <strong>Binding Receiver:</strong> If receiver doesn't respond, you need to "bind" it to your radio. Process varies by brand: usually hold a button on receiver while powering on, then press bind button on radio. Check your receiver manual for exact steps.
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                <strong>Set Up Modes</strong>
+                <p>Go to "Modes" tab. You need to set up an ARM switch (lets you start motors) and optionally other modes like Angle mode (easier for beginners) and Acro mode (full control for tricks). Flip a switch on your radio and watch which channel moves. Assign that channel to ARM mode.</p>
+            </div>
+            
+            <div class="warning">
+                <strong>Important About ARM Switch:</strong> When ARM switch is off, motors cannot spin (safe). When ARM switch is on, motors can spin (dangerous). Always make sure ARM is OFF before handling drone or plugging in battery!
+            </div>
+            
+            <div class="step">
+                <span class="step-number">5</span>
+                <strong>Configure Motor Direction</strong>
+                <p>Go to "Motors" tab. There's a big warning here - READ IT! Motors can spin and hurt you. Make sure propellers are OFF (not installed yet). Check the box that says "I understand the risks". Now connect battery (be ready to disconnect quickly if something goes wrong).</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">6</span>
+                <strong>Test Each Motor</strong>
+                <p>The Motors tab shows 4 sliders. Start with Motor 1. Slowly move slider to around 1050. Motor 1 should spin slowly. If wrong motor spins, your ESC connections are mixed up. Each motor should spin when you move its corresponding slider. Test all 4 motors.</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">7</span>
+                <strong>Check Motor Spin Direction</strong>
+                <p>Motors must spin in correct directions for drone to fly properly. Looking from above:<br>
+                • Motor 1 (Front Right) - spins CLOCKWISE<br>
+                • Motor 2 (Front Left) - spins COUNTER-CLOCKWISE<br>
+                • Motor 3 (Back Right) - spins COUNTER-CLOCKWISE<br>
+                • Motor 4 (Back Left) - spins CLOCKWISE<br>
+                <br>
+                If a motor spins wrong way, you have two options: swap any 2 motor wires, or change direction in software (go to "Motors" tab and check motor direction options).</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">8</span>
+                <strong>Install Propellers</strong>
+                <p>Now you can install props! Propellers come in pairs - one spins clockwise (CW), one counter-clockwise (CCW). They're usually marked or have different colored tips. Install props to match motor spin direction. The writing on the prop should face UP (toward sky). Props go on front side of motor (the smooth side without wires).</p>
+            </div>
+            
+            <div class="warning">
+                <strong>Propeller Safety:</strong> Props are sharp and dangerous! Always disconnect battery before handling drone with props installed. Keep fingers away from prop arc when battery is connected. One mistake can cause serious injury!
+            </div>
+            
+            <div class="step">
+                <span class="step-number">9</span>
+                <strong>Pre-Flight Checks</strong>
+                <p>Before first flight, check everything:<br>
+                • All screws tight<br>
+                • All wires secure (no loose wires)<br>
+                • Battery strap secure<br>
+                • Propellers installed correctly and tight<br>
+                • ARM switch in OFF position<br>
+                • Camera working (put on goggles, turn on drone, check video)<br>
+                • Radio has fresh batteries<br>
+                • Flying in safe open area away from people
+                </p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">10</span>
+                <strong>First Test Hover</strong>
+                <p>For your first flight, use Angle mode if available (it helps keep drone level). Go to empty field. Stand at least 3 meters away. Turn ARM switch ON. Slowly raise throttle. Drone should lift off smoothly. If it flips immediately, something is wrong - cut throttle fast! Common causes: motor spinning wrong way, props installed wrong, flight controller facing wrong direction.</p>
+            </div>
+            
+            <div class="tip">
+                <strong>First Flight Tips:</strong><br>
+                • Start with short flights (30 seconds)<br>
+                • Stay close to ground (1-2 meters) until comfortable<br>
+                • Practice in calm weather (no wind)<br>
+                • Have friend watch for safety<br>
+                • Start with Angle mode before trying Acro mode<br>
+                • Bring extra batteries and props (you'll probably crash)
+            </div>
+            
+            <h3>Betaflight Basic Settings</h3>
+            <p>Some settings you might want to adjust in Betaflight:</p>
+            
+            <table>
+                <tr>
+                    <th>Setting</th>
+                    <th>Location</th>
+                    <th>What It Does</th>
+                </tr>
+                <tr>
+                    <td>Motor Direction</td>
+                    <td>Motors Tab</td>
+                    <td>Reverses motor spin direction</td>
+                </tr>
+                <tr>
+                    <td>PID Tuning</td>
+                    <td>PID Tuning Tab</td>
+                    <td>Controls how drone flies (start with defaults)</td>
+                </tr>
+                <tr>
+                    <td>Rates</td>
+                    <td>PID Tuning Tab</td>
+                    <td>Controls how fast drone responds to stick movement</td>
+                </tr>
+                <tr>
+                    <td>VTX Settings</td>
+                    <td>Video Transmitter Tab</td>
+                    <td>Change video channel and power</td>
+                </tr>
+                <tr>
+                    <td>OSD</td>
+                    <td>OSD Tab</td>
+                    <td>Customize on-screen display in goggles</td>
+                </tr>
+            </table>
+            
+            <div class="local-tip">
+                <strong>Learning to Fly:</strong> Join Filipino FPV groups on Facebook. Many organize meet-ups where experienced pilots help beginners. Some use flight simulators first - download "Liftoff", "Velocidrone", or free simulator "FPV Freerider" to practice before risking your drone.
+            </div>
+        </div>
+        
+        <!-- Troubleshooting Section -->
+        <div id="troubleshoot" class="section">
+            <h2>Troubleshooting Common Problems</h2>
+            
+            <p>Don't worry - everyone has problems with their first build! Here are solutions to the most common issues.</p>
+            
+            <h3>Problem: No Power / Nothing Turns On</h3>
+            <ul class="parts-list">
+                <li><strong>Check battery voltage:</strong> Use multimeter. 4S battery should show around 16.8V when fully charged, 14.8V minimum. If lower, charge battery.</li>
+                <li><strong>Check battery connector:</strong> Make sure XT60 connector is fully plugged in.</li>
+                <li><strong>Check for short circuit:</strong> Test with multimeter in continuity mode. Should not beep between + and - battery pads.</li>
+                <li><strong>Check solder joints:</strong> Look for broken or cold solder joints on battery connector.</li>
+            </ul>
+            
+            <h3>Problem: Computer Doesn't Detect Drone</h3>
+            <ul class="parts-list">
+                <li><strong>Try different USB cable:</strong> Some cables are charging-only, not data cables.</li>
+                <li><strong>Try different USB port:</strong> Some ports don't provide enough power.</li>
+                <li><strong>Install drivers:</strong> Windows might need CP210x or STM32 drivers. Google and download them.</li>
+                <li><strong>Check flight controller LED:</strong> Should blink or light up when USB connected.</li>
+            </ul>
+            
+            <h3>Problem: Motors Don't Spin</h3>
+            <ul class="parts-list">
+                <li><strong>ARM switch must be ON:</strong> Check in Betaflight Modes tab if ARM is activated.</li>
+                <li><strong>Remove props first!</strong> Never test motors with props on unless drone is secured.</li>
+                <li><strong>Check motor wires:</strong> All 3 wires properly soldered to ESC?</li>
+                <li><strong>Check ESC connection:</strong> ESC getting power? Try disconnecting and reconnecting battery.</li>
+                <li><strong>ESC might need calibration:</strong> Look up ESC calibration for your specific ESC model.</li>
+            </ul>
+            
+            <h3>Problem: One Motor Doesn't Spin</h3>
+            <ul class="parts-list">
+                <li><strong>Check solder joints:</strong> Look at the 3 motor wires for that motor. Resolder if needed.</li>
+                <li><strong>Check motor itself:</strong> Disconnect from ESC, test motor with another ESC or use continuity tester. Motor might be burned out.</li>
+                <li><strong>Check ESC pad:</strong> That specific ESC channel might be damaged. Try swapping motor wires to different ESC pad.</li>
+            </ul>
+            
+            <h3>Problem: Drone Flips on Takeoff</h3>
+            <ul class="parts-list">
+                <li><strong>Most common cause - Motor spinning wrong direction!</strong> Check all 4 motors spin correct direction.</li>
+                <li><strong>Second most common - Props on wrong motors:</strong> CW props must go on CW motors, CCW props on CCW motors.</li>
+                <li><strong>Third - Props upside down:</strong> Writing on prop should face up toward sky.</li>
+                <li><strong>Fourth - Flight controller orientation wrong:</strong> Arrow must point forward!</li>
+            </ul>
+            
+            <h3>Problem: No Video in Goggles</h3>
+            <ul class="parts-list">
+                <li><strong>Check goggles channel:</strong> Must match VTX channel. Try auto-scan on goggles.</li>
+                <li><strong>Check VTX antenna:</strong> Must be connected BEFORE powering on. Never power VTX without antenna - it can burn out!</li>
+                <li><strong>Check camera wiring:</strong> Camera getting power? Video wire connected?</li>
+                <li><strong>VTX getting power?</strong> Check solder joints and voltage (5V, 9V, or battery voltage depending on your VTX).</li>
+                <li><strong>Try different VTX power level:</strong> Some VTX start on low power or pit mode.</li>
+            </ul>
+            
+            <h3>Problem: Radio Not Responding</h3>
+            <ul class="parts-list">
+                <li><strong>Receiver bound to radio?</strong> Follow binding procedure for your specific receiver.</li>
+                <li><strong>Check receiver wiring:</strong> Power, ground, and signal all connected?</li>
+                <li><strong>Correct receiver type selected?</strong> In Betaflight, check Receiver tab - SBUS, PPM, IBUS, etc.</li>
+                <li><strong>Radio turned on?</strong> Fresh batteries in radio?</li>
+                <li><strong>Receiver antenna damaged?</strong> Should not be cut or broken.</li>
+            </ul>
+            
+            <h3>Problem: Drone Drifts / Won't Hover Steady</h3>
+            <ul class="parts-list">
+                <li><strong>Normal for Acro mode:</strong> You must control it constantly. Try Angle/Horizon mode for self-leveling.</li>
+                <li><strong>Calibrate accelerometer:</strong> In Betaflight, go to Setup tab, place drone on flat surface, click Calibrate Accelerometer.</li>
+                <li><strong>Check if props are balanced:</strong> Damaged or bent props cause vibration and drift.</li>
+                <li><strong>Check motor screws:</strong> Loose motor mounts cause vibration.</li>
+            </ul>
+            
+            <h3>Problem: Short Flight Time</h3>
+            <ul class="parts-list">
+                <li><strong>Battery voltage too low:</strong> Don't fly below 3.5V per cell (14V for 4S). Set battery warning in OSD.</li>
+                <li><strong>Battery damaged:</strong> Old or crashed batteries lose capacity. Check cell voltages - should be equal.</li>
+                <li><strong>Flying too aggressively:</strong> Full throttle punches drain battery fast. Cruise around 50-70% throttle.</li>
+                <li><strong>Damaged ESC or motor:</strong> Draws more current than normal. Check if any motor gets hot.</li>
+            </ul>
+            
+            <h3>Problem: Betaflight Won't Save Settings</h3>
+            <ul class="parts-list">
+                <li><strong>Click "Save and Reboot" button!</strong> Bottom right corner of most tabs.</li>
+                <li><strong>Wait for save to complete:</strong> Don't disconnect while saving.</li>
+                <li><strong>Flash latest firmware:</strong> Old firmware versions sometimes have bugs.</li>
+            </ul>
+            
+            <div class="warning">
+                <strong>When Something Burns or Smokes:</strong><br>
+                • IMMEDIATELY disconnect battery!<br>
+                • Don't touch hot components<br>
+                • Let everything cool down<br>
+                • Identify burned component (usually has black mark or burned smell)<br>
+                • Most common cause: short circuit or wrong voltage<br>
+                • Check all wiring before replacing component
+            </div>
+            
+            <div class="local-tip">
+                <strong>Need More Help?</strong><br>
+                • Search YouTube for your specific problem<br>
+                • Join Filipino FPV Facebook groups - post photos and ask questions<br>
+                • Check forums like IntFPV, r/Multicopter on Reddit<br>
+                • Take clear photos of your wiring and post them when asking for help<br>
+                • Many experienced pilots are happy to help beginners!
+            </div>
+        </div>
+        
+        <!-- Glossary Section -->
+        <div id="glossary" class="section">
+            <h2>Word Guide (Glossary)</h2>
+            
+            <p>Here's what all those confusing words mean, explained in simple terms.</p>
+            
+            <table>
+                <tr>
+                    <th>Term</th>
+                    <th>Simple Explanation</th>
+                </tr>
+                <tr>
+                    <td><strong>4S / 6S Battery</strong></td>
+                    <td>Number of battery cells. 4S = 4 cells (16.8V full), 6S = 6 cells (25.2V full). More cells = more power and speed.</td>
+                </tr>
+                <tr>
+                    <td><strong>Acro Mode</strong></td>
+                    <td>Flying mode where you have full control. Drone doesn't auto-level - you control everything. Hard to learn but allows flips and tricks.</td>
+                </tr>
+                <tr>
+                    <td><strong>Angle Mode</strong></td>
+                    <td>Beginner mode. Drone auto-levels itself. When you release sticks, drone returns to level position. Good for learning.</td>
+                </tr>
+                <tr>
+                    <td><strong>ARM</strong></td>
+                    <td>Turning on the motors. "Arming" the drone means getting it ready to fly. Always ARM with switch on your radio.</td>
+                </tr>
+                <tr>
+                    <td><strong>AWG</strong></td>
+                    <td>American Wire Gauge - measure of wire thickness. Lower number = thicker wire. 16 AWG is thick (for power), 28 AWG is thin (for signals).</td>
+                </tr>
+                <tr>
+                    <td><strong>Betaflight</strong></td>
+                    <td>Free software that runs on your flight controller. It's the "brain" that keeps drone flying stable. You configure it on your computer.</td>
+                </tr>
+                <tr>
+                    <td><strong>Binding</strong></td>
+                    <td>Connecting your radio controller to your receiver. Like pairing Bluetooth - they need to "know" each other to work.</td>
+                </tr>
+                <tr>
+                    <td><strong>C Rating</strong></td>
+                    <td>How fast battery can deliver power. Higher C = can deliver more power. Racing drones need high C ratings (75C-120C).</td>
+                </tr>
+                <tr>
+                    <td><strong>CW / CCW</strong></td>
+                    <td>Clockwise / Counter-Clockwise. Direction motors and props spin. Two motors spin CW, two spin CCW.</td>
+                </tr>
+                <tr>
+                    <td><strong>ESC</strong></td>
+                    <td>Electronic Speed Controller. Takes signal from flight controller and makes motor spin at correct speed. You need 4 (one per motor) or get 4-in-1 ESC.</td>
+                </tr>
+                <tr>
+                    <td><strong>F4 / F7 Flight Controller</strong></td>
+                    <td>The processor type. F7 is newer and faster than F4, but F4 works great for beginners. Just marketing names for different chips.</td>
+                </tr>
+                <tr>
+                    <td><strong>Flight Controller (FC)</strong></td>
+                    <td>The
