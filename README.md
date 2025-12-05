@@ -1,0 +1,10 @@
+# fpv-drone-guide
+Introduction (with Philippine-specific info)
+Complete Parts List (with local pricing in pesos)
+Tools Needed (with safety guidelines)
+Assembly Steps (10 detailed steps)
+Wiring Guide (complete with polarity explanations and connection diagrams)
+Setup & Testing (software configuration, motor testing, first flight prep)
+Troubleshooting (common problems and solutions)
+Word Guide/Glossary (explains all technical terms)
+Printable Checklist (for tracking your build progress)
